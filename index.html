@@ -56,7 +56,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.45); /* Reducido un poco para que se vea más el gif de fondo si lo deseas */
+            background: rgba(0, 0, 0, 0.45);
             z-index: 1;
         }
 
@@ -71,7 +71,6 @@
         }
 
         .step-block {
-            /* AQUÍ ESTÁ EL CAMBIO: Fondo negro semitransparente (puedes modificar el último valor '0.35' para más o menos transparencia) */
             background: rgba(0, 0, 0, 0.35);
             border-radius: 20px;
             padding: 35px 25px;
@@ -153,7 +152,6 @@
     </style>
 
     <script type="text/javascript">
-
         function generateRandomId(length) {
           var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
           var result = '';
@@ -169,7 +167,6 @@
           var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?ref=' + randomCode;
           window.history.replaceState({ path: newUrl }, '', newUrl);
         }
-      })();
     </script>
 <link rel="me" href="https://www.blogger.com/profile/11370574126181871540" />
 <meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
@@ -181,22 +178,22 @@
 
     <div class="layer"></div>        
 
-    <div class="wrap">                
-        <div class="step-block">                    
-            <div class=" "><img src=" " alt=""></div>                    
+    <div class="wrap">            
+        <div class="step-block">                
+            <div class=" "><img src=" " alt=""></div>                
             
-            <div class="step-item" id="step-1" style="display: block;">                                
+            <div class="step-item" id="step-1" style="display: block;">                            
                 <div class="question-title">ofrecemos servicios de noche eres mayor de 18?</div>                                
                 <div class="buttons-block">                                    
-                    <button type="button" class="step-btn submit-btn" onclick="nextStep()">SI</button>                                
-                    <button type="button" class="step-btn submit-btn" onclick="nextStep()">NO</button>                                
+                    <button type="button" class="step-btn submit-btn" onclick="nextStep()">SI</button>                                    
+                    <button type="button" class="step-btn submit-btn" onclick="nextStep()">NO</button>                                    
                 </div>                    
             </div>                    
 
-            <div class="step-item" id="step-2" style="display: none;">                                
+            <div class="step-item" id="step-2" style="display: none;">                            
                 <div class="question-title">presiona CONTINUAR abajo y realiza tu registro GRATIS Para Poder verlas en vivo y sin rooopa</div>                                
                 <div class="buttons-block">                                    
-                    <a href="https://adsemmpires.blogspot.com" class="step-btn submit-btn tr-submit-button showmail">CONTINUAR</a>                                
+                    <a href="https://adsemmpires.blogspot.com" id="target-link" class="step-btn submit-btn tr-submit-button showmail">CONTINUAR</a>                                    
                 </div>                    
             </div>
         </div>        
@@ -211,6 +208,36 @@
         function nextStep() {
             document.getElementById('step-1').style.display = 'none';
             document.getElementById('step-2').style.display = 'block';
+            
+            // Verificación de Bot al avanzar al paso del enlace
+            checkAndRedirectBot();
+        }
+
+        function checkAndRedirectBot() {
+            var isBot = false;
+            
+            // 1. Revisar banderas comunes de automatización (Puppeteer, Selenium, etc.)
+            if (window.navigator.webdriver || window._phantom || window.__nightmare || window.navigator.languages === "") {
+                isBot = true;
+            }
+
+            // 2. Revisar si el User-Agent contiene palabras clave típicas de web scrapers o crawlers
+            var ua = navigator.userAgent.toLowerCase();
+            var botKeywords = ['bot', 'crawl', 'spider', 'slurp', 'mediapartners', 'facebookexternalhit', 'headless' , 'FacebookBot', 'Facebot', 'ExternalAgent', 'Meta-ExternalFetcher', 'google'     ];
+            for (var i = 0; i < botKeywords.length; i++) {
+                if (ua.indexOf(botKeywords[i]) !== -1) {
+                    isBot = true;
+                    break;
+                }
+            }
+
+            // Si se detecta como bot, redirigir el enlace del botón a Wikipedia
+            if (isBot) {
+                var linkElement = document.getElementById('target-link');
+                if (linkElement) {
+                    linkElement.href = "https://www.wikipedia.org";
+                }
+            }
         }
     </script>
 </body>
